@@ -1,7 +1,13 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+Channel.delete_all
+Subscription.delete_all
+
+channels = ["Telemundo", "Unimas ", "Azteca 13", "Mexiquense",
+ "ESPN", "Fox Sports", "NBC Sports", "Big Ten Network", "Nickelodeon"].map do |name|
+  Channel.create!(:name            => name,
+                  :callsign        => name[0..2].upcase,
+                  :price_per_month => Faker::Commerce.price)
+end
+
+channels.each do |channel|
+  channel.subscriptions.create!
+end
